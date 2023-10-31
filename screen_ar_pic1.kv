@@ -1,0 +1,169 @@
+#: import Factory kivy.factory.Factory
+ScreenManager:
+    MenuScreen:
+    ProfileScreen:
+    UploadScreen:
+    Facturelist:
+<ItemConfirm>:
+    on_release: root.set_icon(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
+  
+<Content>:
+    
+    name:'cont'
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+
+    MDTextField:
+        id: control_text_in
+        
+        hint_text: "Entrez le nom de l'emplacement de contrôle"
+<Content1>:
+    
+    name:'cont'
+    #orientation: "vertical"
+    #spacing: "12dp"
+    #size_hint_y: None
+    #height: "120dp"
+
+    Screen:
+        ScrollView:
+            MDList:
+                id: container_led_watt
+                               
+<MenuScreen>:
+    name: 'menu' 
+    MDNavigationLayout:
+        MDScreenManager:
+            MDScreen:
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    MDTopAppBar:
+                        title: ""
+                        elevation: 2
+                        left_action_items: [['menu', lambda x: x]]
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            BoxLayout:
+                                size_hint_x: None
+                                width: dp(10)
+                            Label:
+                                text: "Controle Suite"
+                            BoxLayout:
+                                size_hint_x: None
+                                width: dp(10)
+                        
+                        
+                
+                    Widget:
+                    MDBottomAppBar:    
+                        MDTopAppBar:
+                            title: ""
+                            icon: "server-plus"
+                            type: "bottom"
+                            left_action_items: [["email", lambda x: x]]   
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+            ContentNavigationDrawer:
+    MDTextField:
+        id: get_server
+        hint_text: "Addersse Ip"
+        
+        helper_text: "or creer server dynamique 'ex :no-ip.ddns.net'"
+        helper_text_mode: "on_focus"
+        icon_right: "server"
+        icon_right_color: app.theme_cls.primary_color
+        pos_hint:{'center_x': 0.5, 'center_y': 0.7}
+        size_hint_x:None
+        width:250
+        color_mode :"custom"
+        current_hint_text_color: (1.0,0,1)
+    MDRectangleFlatButton:
+        text: 'Show'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.6} 
+        on_press: root.show_data()             
+    MDRectangleFlatButton:
+        id : nav_drawer
+        text: 'Profile'
+        pos_hint: {'center_x':0.5,'center_y':0.5}
+        on_press: root.manager.current = 'profile'
+        
+    MDRectangleFlatButton:
+        text: 'Upload'
+        pos_hint: {'center_x':0.5,'center_y':0.4}
+        on_press: root.manager.current = 'upload'
+
+<ProfileScreen>:
+    name: 'profile'
+    MDBackdrop:
+        id : backdrop
+        title : "Contrôle de l'appareil"
+         
+        header_text : "Surveiller la quantité de consommation"
+        right_action_items: [["step-backward"]]
+        MDBackdropBackLayer:
+            ScrollView:
+                MDList:
+                    id: container
+        MDBackdropFrontLayer:
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 5
+                MDTextField:
+                    id : watt
+                    size_hint_x: .5
+                    hint_text: "Calcule consomation électrisité"
+                    readonly: True
+                    halign: 'center'
+                    valign: 'middle'
+                    max_height: "200dp"
+                    mode: "fill"
+                    fill_color: 0, 0, 0, .4
+                    multiline: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                
+                MDBoxLayout:
+                    ScrollView:
+                        orientation: 'vertical'
+                        spacing: 10
+                        
+                        MDScreen:
+                            MDList:
+                                id: container_consomation
+                MDRectangleFlatButton:
+                    text: 'Back'
+                    pos_hint: {'center_x':0.5,'center_y':0.1}
+                    on_press: root.manager.current = 'menu'
+
+<UploadScreen>:
+    
+    name: 'upload'
+        
+    MDBoxLayout:
+        orientation: "vertical"
+        #padding: "0dp"  # تعديل هذه القيمة حسب احتياجاتك
+        #spacing: "30dp"  # تعديل هذه القيمة حسب احتياجاتك
+        MDTopAppBar:
+            id : topupdate
+            title: "Controlle"
+            right_action_items: [["./icons/supprimer.png",lambda x: root.show_confirmation_dialog(root.txt)], ["./icons/ajouter.png", lambda x: root.show_confirmation_dialog("rename")],["./icons/watt.png", lambda x: root.add_led_watt()]]
+            type: "top"
+            
+        
+        ScrollView:
+            MDList:
+                #padding:"150dp"
+                #spacing: "170dp"
+                id: container1
+        MDRectangleFlatButton:
+            text: 'Back'
+            pos_hint: {'center_x':0.5,'center_y':0.1}
+            on_press: root.manager.current = 'profile'                
+<Facturelist>:
+    name : 'factur'
